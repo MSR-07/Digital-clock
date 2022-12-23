@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="stylesheet" href="StyleSheet.css">
+
+  <title>Digital Clock</title>
+</head>
+<body onclick="playSound()">
+  <audio src="https://www.dropbox.com/s/clxhbm8hbq4g3so/sound.mp3?dl=1" loop preload="auto" class="sound"></audio>
+    <div class="container">
+      <div class="box">
+        <section class="display">
+          <span class="time">START</span>
+          <small class="indic"></small>
+        </section>
+        <section class="progress">
+          <section class="bar">
+          </section>
+        </section>
+      </div>
+    </div>
+    
+  <script>
+    var time = document.querySelector('.time');
+    var sound = document.querySelector('.sound');
+    var bar = document.querySelector('.bar');
+    var mainDate, hour, min, sec, display, ampm, progress;
+    
+    function playSound() {
+      sound.play();
+      updateTime();
+      //console.log('started')
+    }
+    
+    function updateTime() {
+      mainDate = new Date();
+      hour = mainDate.getHours();
+      min = mainDate.getMinutes();
+      sec = mainDate.getSeconds();
+      
+      //console.log(hour + ":" + min + ":" + sec);
+      
+      //GETTING THE AM OR PM VALUE
+      ampm = (hour >= 12)? 'pm' : 'am';
+      //GETTING THE WIDTH OF PROGRESS BAR
+      progress = (sec / 60) * 100;
+      
+      
+      //CONVERTING CLOCK TO 12 HOUR FORMAT
+      hour = (hour > 12)? hour - 12 : hour;
+      //STYLING THE HOUR BY ADDING ZERO IN
+      hour = (hour < 10)? "0" + hour : hour;
+      //STYLING THE MINUTE BY ADDING ZERO IN
+      min = (min < 10)? "0" + min : min;
+      //STYLING THE SECOND BY ADDING ZERO IN
+      sec = (sec < 10)? "0" + sec : sec;
+      
+      display = hour + ":" + min + ":" + sec;
+      
+      time.innerText = display;
+      bar.style.width = progress + "%";
+      document.querySelector('.indic').innerText = ampm;
+      
+      //sound.play()
+      
+      //UPDATING THE TIME
+      setInterval(updateTime, 1000);
+    }
+    
+  </script>
+</body>
+</html>
